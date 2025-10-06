@@ -13,249 +13,218 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Source+Code+Pro:wght@400;500&display=swap" rel="stylesheet">
     <style>
-        /* --- General & Background --- */
+        /* --- THEME COLORS & GENERAL STYLES --- */
+        :root {
+            --bg-primary: #f8fafc;
+            --bg-secondary: #ffffff;
+            --bg-secondary-translucent: rgba(255, 255, 255, 0.5);
+            --bg-tertiary: #f3f4f6;
+            --text-primary: #1f2937;
+            --text-secondary: #4b5563;
+            --text-accent: #4f46e5;
+            --border-color: #e5e7eb;
+            --shadow-color: rgba(0, 0, 0, 0.15);
+            --svg-stroke: #d1d5db;
+            --header-bg: rgba(255, 255, 255, 0.8);
+            --footer-bg: #111827;
+            --footer-text: #ffffff;
+            --footer-link: #9ca3af;
+            --footer-border: #374151;
+            --prompt-color: #16a34a; /* Added for terminal prompt */
+        }
+
+        html.dark {
+            --bg-primary: #0a0a0a; /* Deeper, near-black background */
+            --bg-secondary: #1a1a1a; /* Dark charcoal for cards */
+            --bg-secondary-translucent: rgba(26, 26, 26, 0.5);
+            --bg-tertiary: #2c2c2c;
+            --text-primary: #e5e5e5;
+            --text-secondary: #a3a3a3;
+            --text-accent: #93c5fd;
+            --border-color: #2c2c2c;
+            --shadow-color: rgba(0, 0, 0, 0.6);
+            --svg-stroke: #404040;
+            --header-bg: rgba(10, 10, 10, 0.8);
+            --footer-bg: #000000;
+            --footer-text: #e5e5e5;
+            --footer-link: #737373;
+            --footer-border: #2c2c2c;
+            --prompt-color: #22c55e; /* Added for terminal prompt */
+        }
+        
         body {
             font-family: 'Inter', sans-serif;
-            background-color: #f8fafc;
+            background-color: var(--bg-primary);
+            color: var(--text-secondary);
             overflow-x: hidden;
-        }
-
-        /* Spider-Man Web Designs - Adjusted for light mode */
-        .spider-web {
-            position: fixed;
-            width: 200px;
-            height: 200px;
-            pointer-events: none;
-            z-index: 40;
-            opacity: 0.5;
-        }
-
-        .web-svg {
-            stroke: #d1d5db;
-            stroke-width: 1;
-        }
-
-        .top-left { top: -40px; left: -40px; }
-        .top-right { top: -40px; right: -40px; transform: rotate(90deg); }
-        .bottom-left { bottom: -40px; left: -40px; transform: rotate(-90deg); }
-        .bottom-right { bottom: -40px; right: -40px; transform: rotate(180deg); }
-
-        @media (max-width: 768px) {
-            .spider-web { display: none; }
-        }
-
-        /* --- Hero Section Styling --- */
-        #three-banner {
-            display: block;
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
+            transition: background-color 0.3s ease, color 0.3s ease;
         }
         
-        .glitch-wrapper {
-            position: absolute; width: 100%; height: 100%;
-            top: 0; left: 0; display: flex; align-items: center;
-            justify-content: center; z-index: 10; pointer-events: none;
+        .spider-web .web-svg { stroke: var(--svg-stroke); }
+
+        /* --- Header & Navigation --- */
+        header {
+            background-color: var(--header-bg);
+            box-shadow: 0 1px 2px 0 var(--shadow-color);
+        }
+        .nav-link {
+            color: var(--text-secondary);
+        }
+        .nav-link:hover {
+            color: var(--text-accent);
+        }
+        #mobile-menu {
+            background-color: var(--header-bg);
+        }
+        #theme-toggle-btn .sun-icon,
+        html.dark #theme-toggle-btn .moon-icon {
+            display: block;
+        }
+        #theme-toggle-btn .moon-icon,
+        html.dark #theme-toggle-btn .sun-icon {
+            display: none;
         }
 
-        .glitch-wrapper:after {
-            content: ''; position: absolute; top: 0; left: 0;
-            width: 100%; height: 100%;
-            background: repeating-linear-gradient(0deg, rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.1) 1px, transparent 2px, transparent 4px);
-            pointer-events: none; opacity: 0.3;
+        /* --- Hero & Profile --- */
+        .profile-card {
+             background-color: var(--bg-secondary);
+             box-shadow: 0 10px 15px -3px var(--shadow-color), 0 4px 6px -2px var(--shadow-color);
+        }
+        .profile-card h1 { color: var(--text-primary); }
+        .profile-pic { border-color: var(--bg-secondary); }
+
+        /* --- Buttons --- */
+        .btn-primary { background-color: var(--text-accent); }
+        .btn-primary:hover { background-color: #4338ca; }
+        html.dark .btn-primary:hover { background-color: #6d28d9; }
+        .btn-secondary {
+            background-color: var(--bg-secondary);
+            color: var(--text-secondary);
+            border: 1px solid var(--border-color);
+        }
+        .btn-secondary:hover { background-color: #f9fafb; }
+        html.dark .btn-secondary:hover { background-color: #374151; }
+
+        /* --- Sections (About, Skills, Projects, Music) --- */
+        section h2 { color: var(--text-primary); }
+        .section-bg {
+            background-color: var(--bg-secondary-translucent);
         }
 
-        .glitch {
-            position: relative; color: white; font-weight: 900; letter-spacing: 0.1em;
-            text-transform: uppercase; text-shadow: 0px 0px 5px rgba(255,255,255,0.4);
-            animation: flow-and-skew 8s infinite linear alternate, color-distort 3s infinite alternate-reverse;
-            filter: blur(0.2px) hue-rotate(0deg); z-index: 15; pointer-events: all;
+        .terminal-window {
+            background-color: var(--bg-secondary);
+            border: 1px solid var(--border-color);
+            box-shadow: 0 25px 50px -12px var(--shadow-color);
         }
-
-        .glitch:before, .glitch:after {
-            content: attr(data-text); position: absolute; top: 0; left: 0;
-            width: 100%; height: 100%; background: transparent; overflow: hidden;
-            filter: hue-rotate(0deg);
-            animation: glitch-anim-1 0.2s infinite linear alternate-reverse, hue-shift 0.5s steps(1) infinite;
+        .terminal-header { background-color: var(--bg-tertiary); }
+        .terminal-body { color: var(--text-primary); }
+        .terminal-cursor { background-color: var(--text-primary); }
+        @keyframes blink { from, to { background-color: transparent; } 50% { background-color: var(--text-primary); } }
+        .prompt-user { color: var(--prompt-color); }
+        .prompt-command { color: var(--text-primary); }
+        
+        .skill-card {
+            background-color: var(--bg-secondary);
+            box-shadow: 0 4px 6px -1px var(--shadow-color), 0 2px 4px -1px var(--shadow-color);
         }
+        .skill-card p { color: var(--text-secondary); }
 
+        .project-card {
+             background-color: var(--bg-secondary);
+             box-shadow: 0 4px 6px -1px var(--shadow-color), 0 2px 4px -1px var(--shadow-color);
+        }
+        .project-card h3 { color: var(--text-primary); }
+        .project-card a { color: var(--text-accent); }
+        
+        /* --- Vinyl Album --- */
+        .album .cover {
+            box-shadow: 0 8px 16px var(--shadow-color);
+        }
+        .album .vinyl {
+            box-shadow: 0 0 15px var(--shadow-color);
+        }
+        
+        /* --- Footer --- */
+        footer {
+            background-color: var(--footer-bg);
+            color: var(--footer-text);
+        }
+        footer .email { color: var(--text-accent); }
+        footer .social-link { color: var(--footer-link); }
+        footer .social-link:hover { color: var(--footer-text); }
+        footer .footer-divider { border-color: var(--footer-border); }
+
+        /* --- Animations (Unchanged) --- */
+        .spider-web { position: fixed; width: 200px; height: 200px; pointer-events: none; z-index: 40; opacity: 0.5; }
+        .top-left { top: -40px; left: -40px; } .top-right { top: -40px; right: -40px; transform: rotate(90deg); }
+        .bottom-left { bottom: -40px; left: -40px; transform: rotate(-90deg); } .bottom-right { bottom: -40px; right: -40px; transform: rotate(180deg); }
+        @media (max-width: 768px) { .spider-web { display: none; } }
+        #three-banner { display: block; position: absolute; top: 0; left: 0; width: 100%; height: 100%; }
+        .glitch-wrapper { position: absolute; width: 100%; height: 100%; top: 0; left: 0; display: flex; align-items: center; justify-content: center; z-index: 10; pointer-events: none; }
+        .glitch-wrapper:after { content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: repeating-linear-gradient(0deg, rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.1) 1px, transparent 2px, transparent 4px); pointer-events: none; opacity: 0.3; }
+        .glitch { position: relative; color: white; font-weight: 900; letter-spacing: 0.1em; text-transform: uppercase; text-shadow: 0px 0px 5px rgba(255,255,255,0.4); animation: flow-and-skew 8s infinite linear alternate, color-distort 3s infinite alternate-reverse; filter: blur(0.2px) hue-rotate(0deg); z-index: 15; pointer-events: all; }
+        .glitch:before, .glitch:after { content: attr(data-text); position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: transparent; overflow: hidden; filter: hue-rotate(0deg); animation: glitch-anim-1 0.2s infinite linear alternate-reverse, hue-shift 0.5s steps(1) infinite; }
         .glitch:before { left: 3px; text-shadow: -2px 0 #c77dff; }
         .glitch:after { left: -3px; text-shadow: -2px 0 #7b2cbf; }
-        
         @keyframes hue-shift { 0% { filter: hue-rotate(0deg); } 50% { filter: hue-rotate(15deg); } 100% { filter: hue-rotate(0deg); } }
         @keyframes glitch-anim-1 { 0% { clip-path: inset(5% 0 85% 0); } 25% { clip-path: inset(20% 0 60% 0); } 50% { clip-path: inset(40% 0 40% 0); } 75% { clip-path: inset(65% 0 20% 0); } 100% { clip-path: inset(80% 0 5% 0); } }
         @keyframes glitch-anim-2 { 0% { clip-path: inset(10% 0 80% 0); } 25% { clip-path: inset(30% 0 50% 0); } 50% { clip-path: inset(50% 0 30% 0); } 75% { clip-path: inset(70% 0 10% 0); } 100% { clip-path: inset(90% 0 0% 0); } }
         @keyframes flow-and-skew { from { transform: translateX(-15%) skewX(-10deg); } to { transform: translateX(15%) skewX(10deg); } }
-
-        /* Add this to reduce the animation movement on smaller screens */
-        @media (max-width: 768px) {
-            @keyframes flow-and-skew {
-                from { transform: translateX(-8%) skewX(-8deg); }
-                to { transform: translateX(8%) skewX(8deg); }
-            }
-        }
-
-        .f1-car-element { 
-            animation: car-forward 6s infinite linear;
-            transform-origin: center bottom; position: absolute;
-            height: auto; width: 80px; z-index: 16;
-            bottom: -18px; left: 0; 
-        }
+        @media (max-width: 768px) { @keyframes flow-and-skew { from { transform: translateX(-8%) skewX(-8deg); } to { transform: translateX(8%) skewX(8deg); } } }
+        .f1-car-element { animation: car-forward 6s infinite linear; transform-origin: center bottom; position: absolute; height: auto; width: 80px; z-index: 16; bottom: -18px; left: 0; }
         @keyframes car-forward { 0% { transform: translateX(-150%); opacity: 0; } 1% { opacity: 1; } 99% { transform: translateX(300vw); opacity: 1; } 100% { opacity: 0; transform: translateX(300vw); } }
         @media (min-width: 768px) { .f1-car-element { width: 120px; } }
-        
-        /* -- Interactive Terminal -- */
-        .terminal-window {
-            background-color: #ffffff; border-radius: 0.75rem;
-            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.15);
-            border: 1px solid #e5e7eb; overflow: hidden;
-        }
-        .terminal-header {
-            background-color: #f3f4f6; padding: 0.75rem;
-            display: flex; align-items: center; gap: 0.5rem;
-        }
-        .terminal-btn { width: 0.75rem; height: 0.75rem; border-radius: 9999px; }
-        .terminal-body {
-            padding: 1.5rem; color: #1f2937; font-family: 'Source Code Pro', monospace;
-            min-height: 250px;
-        }
-        .terminal-cursor {
-            display: inline-block; background-color: #1f2937;
-            width: 10px; animation: blink 1s step-end infinite;
-        }
-        @keyframes blink { from, to { background-color: transparent; } 50% { background-color: #1f2937; } }
-        .prompt-user { color: #16a34a; }
-        .prompt-command { color: #111827; }
-
-        /* --- New Favourite Music Albums Section --- */
-        .music-container {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            flex-wrap: wrap;
-            gap: 6rem; /* Increased gap to prevent overlap on hover */
-            margin-top: 3rem;
-        }
-
-        .album {
-            --album-size: 220px; /* Made the albums smaller */
-            --vinyl-size: 200px; /* Adjusted vinyl size proportionally */
-            --border-radius: 0;
-            --cover-translate: -10px;
-            --cover-rotate: -2deg;
-            --vinyl-translate: 50%;
-            --vinyl-rotate: 360deg;
-            position: relative;
-            width: var(--album-size);
-            height: var(--album-size);
-        }
-
-        .album .cover {
-            position: relative;
-            width: 100%;
-            height: 100%;
-            border-radius: var(--border-radius);
-            overflow: hidden;
-            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
-            z-index: 2;
-            transition: transform 0.5s ease-in-out;
-        }
-
-        .album .cover img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-        }
-        
-        .album .vinyl {
-            position: absolute;
-            top: 10px;
-            right: 0;
-            width: var(--vinyl-size);
-            height: var(--vinyl-size);
-            border-radius: 50%;
-            background: conic-gradient(from 50deg at 50% 50%, transparent 46%, rgba(255, 255, 255, 0.1) 48%, rgba(255, 255, 255, 0.15) 51%, transparent 56%),
-                        conic-gradient(from 225deg at 50% 50%, transparent 46%, rgba(255, 255, 255, 0.1) 48%, rgba(255, 255, 255, 0.15) 51%, transparent 56%),
-                        repeating-radial-gradient(circle, rgba(120, 120, 120, 0.1) 0%, rgba(192, 192, 192, 0.01) 1px, transparent 1px, transparent 4px),
-                        black;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            transform: translateX(0) rotate(270deg);
-            transition: transform 0.5s ease-in-out;
-            box-shadow: 0 0 15px rgba(0, 0, 0, 0.5);
-            z-index: 1;
-        }
-        
-        .album .vinyl .vinyl-cover {
-            width: calc(var(--vinyl-size) / 2.8);
-            height: calc(var(--vinyl-size) / 2.8);
-            background-size: cover;
-            background-position: center;
-            border-radius: 50%;
-            box-shadow: 0 0 0 5px black;
-        }
-
-        .album:hover .cover {
-            transform: translateX(var(--cover-translate)) rotate(var(--cover-rotate));
-        }
-
-        .album:hover .vinyl {
-            transform: translateX(var(--vinyl-translate)) rotate(var(--vinyl-rotate));
-        }
+        .music-container { display: flex; justify-content: center; align-items: center; flex-wrap: wrap; gap: 6rem; margin-top: 3rem; }
+        .album { --album-size: 220px; --vinyl-size: 200px; --border-radius: 0; --cover-translate: -10px; --cover-rotate: -2deg; --vinyl-translate: 50%; --vinyl-rotate: 360deg; position: relative; width: var(--album-size); height: var(--album-size); }
+        .album .cover { position: relative; width: 100%; height: 100%; border-radius: var(--border-radius); overflow: hidden; z-index: 2; transition: transform 0.5s ease-in-out; }
+        .album .cover img { width: 100%; height: 100%; object-fit: cover; }
+        .album .vinyl { position: absolute; top: 10px; right: 0; width: var(--vinyl-size); height: var(--vinyl-size); border-radius: 50%; background: conic-gradient(from 50deg at 50% 50%, transparent 46%, rgba(255, 255, 255, 0.1) 48%, rgba(255, 255, 255, 0.15) 51%, transparent 56%), conic-gradient(from 225deg at 50% 50%, transparent 46%, rgba(255, 255, 255, 0.1) 48%, rgba(255, 255, 255, 0.15) 51%, transparent 56%), repeating-radial-gradient(circle, rgba(120, 120, 120, 0.1) 0%, rgba(192, 192, 192, 0.01) 1px, transparent 1px, transparent 4px), black; display: flex; justify-content: center; align-items: center; transform: translateX(0) rotate(270deg); transition: transform 0.5s ease-in-out; z-index: 1; }
+        .album .vinyl .vinyl-cover { width: calc(var(--vinyl-size) / 2.8); height: calc(var(--vinyl-size) / 2.8); background-size: cover; background-position: center; border-radius: 50%; box-shadow: 0 0 0 5px black; }
+        .album:hover .cover { transform: translateX(var(--cover-translate)) rotate(var(--cover-rotate)); }
+        .album:hover .vinyl { transform: translateX(var(--vinyl-translate)) rotate(var(--vinyl-rotate)); }
     </style>
 </head>
-<body class="text-gray-800">
+<body>
 
     <!-- Spider Web Decorations -->
-    <div class="spider-web top-left">
-        <svg class="web-svg" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <path d="M 0 0 L 100 0"></path> <path d="M 0 0 L 90 43.6"></path> <path d="M 0 0 L 70.7 70.7"></path> <path d="M 0 0 L 43.6 90"></path> <path d="M 0 0 L 0 100"></path> <path d="M 9.5 95 C 18 85, 30 75, 43.6 90" fill="none"></path> <path d="M 20 80 C 35 70, 50 60, 70.7 70.7" fill="none"></path> <path d="M 35 60 C 50 50, 65 40, 90 43.6" fill="none"></path> <path d="M 50 40 C 65 30, 80 20, 100 0" fill="none"></path>
-        </svg>
-    </div>
-    <div class="spider-web top-right">
-        <svg class="web-svg" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <path d="M 0 0 L 100 0"></path> <path d="M 0 0 L 90 43.6"></path> <path d="M 0 0 L 70.7 70.7"></path> <path d="M 0 0 L 43.6 90"></path> <path d="M 0 0 L 0 100"></path> <path d="M 9.5 95 C 18 85, 30 75, 43.6 90" fill="none"></path> <path d="M 20 80 C 35 70, 50 60, 70.7 70.7" fill="none"></path> <path d="M 35 60 C 50 50, 65 40, 90 43.6" fill="none"></path> <path d="M 50 40 C 65 30, 80 20, 100 0" fill="none"></path>
-        </svg>
-    </div>
-    <div class="spider-web bottom-left">
-        <svg class="web-svg" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <path d="M 0 0 L 100 0"></path> <path d="M 0 0 L 90 43.6"></path> <path d="M 0 0 L 70.7 70.7"></path> <path d="M 0 0 L 43.6 90"></path> <path d="M 0 0 L 0 100"></path> <path d="M 9.5 95 C 18 85, 30 75, 43.6 90" fill="none"></path> <path d="M 20 80 C 35 70, 50 60, 70.7 70.7" fill="none"></path> <path d="M 35 60 C 50 50, 65 40, 90 43.6" fill="none"></path> <path d="M 50 40 C 65 30, 80 20, 100 0" fill="none"></path>
-        </svg>
-    </div>
-    <div class="spider-web bottom-right">
-        <svg class="web-svg" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <path d="M 0 0 L 100 0"></path> <path d="M 0 0 L 90 43.6"></path> <path d="M 0 0 L 70.7 70.7"></path> <path d="M 0 0 L 43.6 90"></path> <path d="M 0 0 L 0 100"></path> <path d="M 9.5 95 C 18 85, 30 75, 43.6 90" fill="none"></path> <path d="M 20 80 C 35 70, 50 60, 70.7 70.7" fill="none"></path> <path d="M 35 60 C 50 50, 65 40, 90 43.6" fill="none"></path> <path d="M 50 40 C 65 30, 80 20, 100 0" fill="none"></path>
-        </svg>
-    </div>
+    <div class="spider-web top-left"><svg class="web-svg" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M 0 0 L 100 0"></path><path d="M 0 0 L 90 43.6"></path><path d="M 0 0 L 70.7 70.7"></path><path d="M 0 0 L 43.6 90"></path><path d="M 0 0 L 0 100"></path><path d="M 9.5 95 C 18 85, 30 75, 43.6 90" fill="none"></path><path d="M 20 80 C 35 70, 50 60, 70.7 70.7" fill="none"></path><path d="M 35 60 C 50 50, 65 40, 90 43.6" fill="none"></path><path d="M 50 40 C 65 30, 80 20, 100 0" fill="none"></path></svg></div>
+    <div class="spider-web top-right"><svg class="web-svg" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M 0 0 L 100 0"></path><path d="M 0 0 L 90 43.6"></path><path d="M 0 0 L 70.7 70.7"></path><path d="M 0 0 L 43.6 90"></path><path d="M 0 0 L 0 100"></path><path d="M 9.5 95 C 18 85, 30 75, 43.6 90" fill="none"></path><path d="M 20 80 C 35 70, 50 60, 70.7 70.7" fill="none"></path><path d="M 35 60 C 50 50, 65 40, 90 43.6" fill="none"></path><path d="M 50 40 C 65 30, 80 20, 100 0" fill="none"></path></svg></div>
+    <div class="spider-web bottom-left"><svg class="web-svg" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M 0 0 L 100 0"></path><path d="M 0 0 L 90 43.6"></path><path d="M 0 0 L 70.7 70.7"></path><path d="M 0 0 L 43.6 90"></path><path d="M 0 0 L 0 100"></path><path d="M 9.5 95 C 18 85, 30 75, 43.6 90" fill="none"></path><path d="M 20 80 C 35 70, 50 60, 70.7 70.7" fill="none"></path><path d="M 35 60 C 50 50, 65 40, 90 43.6" fill="none"></path><path d="M 50 40 C 65 30, 80 20, 100 0" fill="none"></path></svg></div>
+    <div class="spider-web bottom-right"><svg class="web-svg" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M 0 0 L 100 0"></path><path d="M 0 0 L 90 43.6"></path><path d="M 0 0 L 70.7 70.7"></path><path d="M 0 0 L 43.6 90"></path><path d="M 0 0 L 0 100"></path><path d="M 9.5 95 C 18 85, 30 75, 43.6 90" fill="none"></path><path d="M 20 80 C 35 70, 50 60, 70.7 70.7" fill="none"></path><path d="M 35 60 C 50 50, 65 40, 90 43.6" fill="none"></path><path d="M 50 40 C 65 30, 80 20, 100 0" fill="none"></path></svg></div>
 
     <!-- Header & Navigation -->
-    <header class="bg-white/80 backdrop-blur-md shadow-sm sticky top-0 z-50">
+    <header class="backdrop-blur-md sticky top-0 z-50">
         <nav class="container mx-auto px-6 py-4 flex justify-between items-center">
-            <a href="#" class="text-2xl font-bold text-gray-900">Anshu Saini</a>
-            <div class="hidden md:flex space-x-6">
-                <a href="#about" class="text-gray-600 hover:text-indigo-600 transition duration-300">About</a>
-                <a href="#skills" class="text-gray-600 hover:text-indigo-600 transition duration-300">Skills</a>
-                <a href="#projects" class="text-gray-600 hover:text-indigo-600 transition duration-300">Projects</a>
-                <a href="#music" class="text-gray-600 hover:text-indigo-600 transition duration-300">Music</a>
-                <a href="#contact" class="text-gray-600 hover:text-indigo-600 transition duration-300">Contact</a>
+            <a href="#" class="text-2xl font-bold nav-link">Anshu Saini</a>
+            <div class="hidden md:flex items-center space-x-6">
+                <a href="#about" class="nav-link transition duration-300">About</a>
+                <a href="#skills" class="nav-link transition duration-300">Skills</a>
+                <a href="#projects" class="nav-link transition duration-300">Projects</a>
+                <a href="#music" class="nav-link transition duration-300">Music</a>
+                <a href="#contact" class="nav-link transition duration-300">Contact</a>
+                <button id="theme-toggle-btn" class="text-gray-600 hover:text-indigo-600 transition duration-300 focus:outline-none">
+                    <svg class="sun-icon w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"></path></svg>
+                    <svg class="moon-icon w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"></path></svg>
+                </button>
             </div>
             <!-- Mobile Menu Button -->
-            <div class="md:hidden">
-                <button id="menu-btn" class="text-gray-700 focus:outline-none">
+            <div class="md:hidden flex items-center">
+                 <button id="theme-toggle-btn-mobile" class="text-gray-600 hover:text-indigo-600 transition duration-300 focus:outline-none mr-4">
+                    <svg class="sun-icon w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"></path></svg>
+                    <svg class="moon-icon w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"></path></svg>
+                </button>
+                <button id="menu-btn" class="nav-link focus:outline-none">
                      <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"></path></svg>
                 </button>
             </div>
         </nav>
         <!-- Mobile Menu -->
-        <div id="mobile-menu" class="hidden md:hidden bg-white/90">
-            <a href="#about" class="block py-2 px-4 text-sm text-gray-700 hover:bg-gray-200">About</a>
-            <a href="#skills" class="block py-2 px-4 text-sm text-gray-700 hover:bg-gray-200">Skills</a>
-            <a href="#projects" class="block py-2 px-4 text-sm text-gray-700 hover:bg-gray-200">Projects</a>
-            <a href="#music" class="block py-2 px-4 text-sm text-gray-700 hover:bg-gray-200">Music</a>
-            <a href="#contact" class="block py-2 px-4 text-sm text-gray-700 hover:bg-gray-200">Contact</a>
+        <div id="mobile-menu" class="hidden md:hidden">
+            <a href="#about" class="block py-2 px-4 text-sm nav-link hover:bg-gray-200 dark:hover:bg-gray-700">About</a>
+            <a href="#skills" class="block py-2 px-4 text-sm nav-link hover:bg-gray-200 dark:hover:bg-gray-700">Skills</a>
+            <a href="#projects" class="block py-2 px-4 text-sm nav-link hover:bg-gray-200 dark:hover:bg-gray-700">Projects</a>
+            <a href="#music" class="block py-2 px-4 text-sm nav-link hover:bg-gray-200 dark:hover:bg-gray-700">Music</a>
+            <a href="#contact" class="block py-2 px-4 text-sm nav-link hover:bg-gray-200 dark:hover:bg-gray-700">Contact</a>
         </div>
     </header>
 
@@ -267,93 +236,73 @@
             <div class="relative">
                 <!-- Banner Image -->
                 <div class="h-48 md:h-64 rounded-t-lg bg-gray-900 relative flex items-center justify-center overflow-hidden">
-                    
                     <canvas id="three-banner"></canvas>
-                    
                     <div class="glitch-wrapper">
                         <img src="https://www.pngall.com/wp-content/uploads/2016/04/McLaren-F1-PNG-Pic.png" alt="McLaren F1 Car" class="f1-car-element object-contain" onerror="this.onerror=null; this.src='https://placehold.co/200x100/1f2937/ffffff?text=F1+Image+Failed'; this.classList.remove('f1-car-element'); this.classList.add('w-auto', 'h-10', 'relative', 'z-5');">
-                        <!-- Centering Wrapper -->
                         <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2">
                             <div id="glitch-text" class="glitch text-5xl md:text-7xl" data-text="Vamos">Vamos</div>
                         </div>
                     </div>
                 </div>
                 
-                <!-- Profile Picture (z-index 20) -->
+                <!-- Profile Picture -->
                 <div class="absolute bottom-0 left-4 md:left-8 transform translate-y-1/2 z-20">
-                    <img src="https://res.cloudinary.com/dpf4qrl0w/image/upload/v1759426786/iftim7_zwnjp8.jpg" alt="Your Profile Photo" class="w-32 h-32 md:w-40 md:h-40 rounded-full border-4 md:border-8 border-white shadow-lg object-cover">
+                    <img src="https://res.cloudinary.com/dpf4qrl0w/image/upload/v1759426786/iftim7_zwnjp8.jpg" alt="Your Profile Photo" class="profile-pic w-32 h-32 md:w-40 md:h-40 rounded-full border-4 md:border-8 shadow-lg object-cover">
                 </div>
             </div>
 
             <!-- Profile Info -->
-            <div class="bg-white rounded-b-lg shadow-md pt-20 md:pt-24 pb-8 px-6 md:px-8">
-                <h1 class="text-3xl md:text-4xl font-bold text-gray-900 leading-tight">Anshu Saini</h1>
-                <p class="mt-2 text-lg text-gray-600">
+            <div class="profile-card rounded-b-lg pt-20 md:pt-24 pb-8 px-6 md:px-8">
+                <h1 class="text-3xl md:text-4xl font-bold leading-tight">Anshu Saini</h1>
+                <p class="mt-2 text-lg">
                     IT undergraduate passionate about AI, ML, and cloud projects. Always building, always learning — and always cheering for Max Verstappen 🏎️🔥
                 </p>
                 <div class="mt-6 flex flex-wrap gap-4">
-                    <a href="#contact" class="bg-indigo-600 text-white font-semibold py-2 px-5 rounded-lg shadow-md hover:bg-indigo-700 transition duration-300">Get in Touch</a>
-                    <a href="#projects" class="bg-white text-gray-700 font-semibold py-2 px-5 rounded-lg shadow-md hover:bg-gray-100 transition duration-300 border border-gray-200">View My Work</a>
+                    <a href="#contact" class="btn-primary text-white font-semibold py-2 px-5 rounded-lg shadow-md transition duration-300">Get in Touch</a>
+                    <a href="#projects" class="btn-secondary font-semibold py-2 px-5 rounded-lg shadow-md transition duration-300">View My Work</a>
                 </div>
             </div>
         </section>
 
-        <!-- About Me Section (Now Interactive Terminal) -->
+        <!-- About Me Section -->
         <section id="about" class="py-20 md:py-28">
-            <h2 class="text-3xl font-bold text-center text-gray-900 mb-8">About Me</h2>
+            <h2 class="text-3xl font-bold text-center mb-8">About Me</h2>
             <div class="max-w-3xl mx-auto">
                 <div class="terminal-window">
                     <div class="terminal-header">
-                        <div class="terminal-btn bg-red-500"></div>
-                        <div class="terminal-btn bg-yellow-500"></div>
-                        <div class="terminal-btn bg-green-500"></div>
+                        <div class="terminal-btn bg-red-500"></div><div class="terminal-btn bg-yellow-500"></div><div class="terminal-btn bg-green-500"></div>
                     </div>
-                    <div class="terminal-body">
-                        <div id="terminal-content"></div>
-                    </div>
+                    <div class="terminal-body"><div id="terminal-content"></div></div>
                 </div>
             </div>
         </section>
 
         <!-- Skills Section -->
-        <section id="skills" class="py-20 md:py-28 bg-white/50 rounded-2xl -mx-6 px-6">
-            <h2 class="text-3xl font-bold text-center text-gray-900">My Skills</h2>
+        <section id="skills" class="py-20 md:py-28 section-bg rounded-2xl -mx-6 px-6">
+            <h2 class="text-3xl font-bold text-center">My Skills</h2>
             <div class="mt-12 max-w-4xl mx-auto">
                 <div class="flex flex-wrap justify-center items-center gap-4 md:gap-8">
-                    <!-- Skill Item -->
-                    <div class="bg-white group flex flex-col items-center justify-center p-4 rounded-xl shadow-lg transition-all duration-300 hover:-translate-y-2 hover:shadow-2xl w-32 h-32">
-                         <img src="https://www.vectorlogo.zone/logos/python/python-icon.svg" alt="Python" class="w-12 h-12">
-                         <p class="mt-2 font-semibold text-gray-700">Python</p>
+                    <div class="skill-card group flex flex-col items-center justify-center p-4 rounded-xl transition-all duration-300 hover:-translate-y-2 hover:shadow-2xl w-32 h-32">
+                         <img src="https://www.vectorlogo.zone/logos/python/python-icon.svg" alt="Python" class="w-12 h-12"><p class="mt-2 font-semibold">Python</p>
                     </div>
-                    <!-- Skill Item -->
-                    <div class="bg-white group flex flex-col items-center justify-center p-4 rounded-xl shadow-lg transition-all duration-300 hover:-translate-y-2 hover:shadow-2xl w-32 h-32">
-                         <img src="https://www.vectorlogo.zone/logos/javascript/javascript-icon.svg" alt="JavaScript" class="w-12 h-12">
-                         <p class="mt-2 font-semibold text-gray-700">JavaScript</p>
+                    <div class="skill-card group flex flex-col items-center justify-center p-4 rounded-xl transition-all duration-300 hover:-translate-y-2 hover:shadow-2xl w-32 h-32">
+                         <img src="https://www.vectorlogo.zone/logos/javascript/javascript-icon.svg" alt="JavaScript" class="w-12 h-12"><p class="mt-2 font-semibold">JavaScript</p>
                     </div>
-                    <!-- Skill Item: Machine Learning -->
-                    <div class="bg-white group flex flex-col items-center justify-center p-4 rounded-xl shadow-lg transition-all duration-300 hover:-translate-y-2 hover:shadow-2xl w-32 h-32">
-                         <img src="https://www.vectorlogo.zone/logos/tensorflow/tensorflow-icon.svg" alt="Machine Learning" class="w-12 h-12">
-                         <p class="mt-2 font-semibold text-gray-700">Machine Learning</p>
+                    <div class="skill-card group flex flex-col items-center justify-center p-4 rounded-xl transition-all duration-300 hover:-translate-y-2 hover:shadow-2xl w-32 h-32">
+                         <img src="https://www.vectorlogo.zone/logos/tensorflow/tensorflow-icon.svg" alt="Machine Learning" class="w-12 h-12"><p class="mt-2 font-semibold">Machine Learning</p>
                     </div>
-                    <!-- Skill Item: NLP -->
-                    <div class="bg-white group flex flex-col items-center justify-center p-4 rounded-xl shadow-lg transition-all duration-300 hover:-translate-y-2 hover:shadow-2xl w-32 h-32">
-                        <svg class="w-12 h-12 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M7.5 8.25h9m-9 3H12m-9.75 1.51c0 1.6 1.123 2.994 2.707 3.227 1.129.166 2.27.293 3.423.379.35.026.67.21.865.501L12 21l2.755-4.133a1.14 1.14 0 01.865-.501 48.17 48.17 0 003.423-.379c1.584-.233 2.707-1.626 2.707-3.228V6.741c0-1.602-1.123-2.995-2.707-3.228A48.394 48.394 0 0012 3c-2.392 0-4.744.175-7.043.513C3.373 3.746 2.25 5.14 2.25 6.741v6.018z"></path></svg>
-                         <p class="mt-2 font-semibold text-gray-700">NLP</p>
+                    <div class="skill-card group flex flex-col items-center justify-center p-4 rounded-xl transition-all duration-300 hover:-translate-y-2 hover:shadow-2xl w-32 h-32">
+                        <svg class="w-12 h-12" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M7.5 8.25h9m-9 3H12m-9.75 1.51c0 1.6 1.123 2.994 2.707 3.227 1.129.166 2.27.293 3.423.379.35.026.67.21.865.501L12 21l2.755-4.133a1.14 1.14 0 01.865-.501 48.17 48.17 0 003.423-.379c1.584-.233 2.707-1.626 2.707-3.228V6.741c0-1.602-1.123-2.995-2.707-3.228A48.394 48.394 0 0012 3c-2.392 0-4.744.175-7.043.513C3.373 3.746 2.25 5.14 2.25 6.741v6.018z"></path></svg>
+                         <p class="mt-2 font-semibold">NLP</p>
                     </div>
-                    <!-- Skill Item -->
-                    <div class="bg-white group flex flex-col items-center justify-center p-4 rounded-xl shadow-lg transition-all duration-300 hover:-translate-y-2 hover:shadow-2xl w-32 h-32">
-                         <img src="https://www.vectorlogo.zone/logos/w3_html5/w3_html5-icon.svg" alt="HTML5" class="w-12 h-12">
-                         <p class="mt-2 font-semibold text-gray-700">HTML5</p>
+                    <div class="skill-card group flex flex-col items-center justify-center p-4 rounded-xl transition-all duration-300 hover:-translate-y-2 hover:shadow-2xl w-32 h-32">
+                         <img src="https://www.vectorlogo.zone/logos/w3_html5/w3_html5-icon.svg" alt="HTML5" class="w-12 h-12"><p class="mt-2 font-semibold">HTML5</p>
                     </div>
-                     <!-- Skill Item -->
-                    <div class="bg-white group flex flex-col items-center justify-center p-4 rounded-xl shadow-lg transition-all duration-300 hover:-translate-y-2 hover:shadow-2xl w-32 h-32">
-                         <img src="https://www.vectorlogo.zone/logos/mysql/mysql-icon.svg" alt="MySQL" class="w-12 h-12">
-                         <p class="mt-2 font-semibold text-gray-700">MySQL</p>
+                    <div class="skill-card group flex flex-col items-center justify-center p-4 rounded-xl transition-all duration-300 hover:-translate-y-2 hover:shadow-2xl w-32 h-32">
+                         <img src="https://www.vectorlogo.zone/logos/mysql/mysql-icon.svg" alt="MySQL" class="w-12 h-12"><p class="mt-2 font-semibold">MySQL</p>
                     </div>
-                    <!-- Skill Item -->
-                    <div class="bg-white group flex flex-col items-center justify-center p-4 rounded-xl shadow-lg transition-all duration-300 hover:-translate-y-2 hover:shadow-2xl w-32 h-32">
-                         <img src="https://www.vectorlogo.zone/logos/git-scm/git-scm-icon.svg" alt="Git" class="w-12 h-12">
-                         <p class="mt-2 font-semibold text-gray-700">Git</p>
+                    <div class="skill-card group flex flex-col items-center justify-center p-4 rounded-xl transition-all duration-300 hover:-translate-y-2 hover:shadow-2xl w-32 h-32">
+                         <img src="https://www.vectorlogo.zone/logos/git-scm/git-scm-icon.svg" alt="Git" class="w-12 h-12"><p class="mt-2 font-semibold">Git</p>
                     </div>
                 </div>
             </div>
@@ -361,26 +310,22 @@
 
         <!-- Projects Section -->
         <section id="projects" class="py-20 md:py-28">
-            <h2 class="text-3xl font-bold text-center text-gray-900">My Projects</h2>
+            <h2 class="text-3xl font-bold text-center">My Projects</h2>
             <div class="mt-12 grid grid-cols-1 md:grid-cols-2 gap-8">
-                
-                <!-- Project 1 -->
-                <div class="bg-white rounded-xl shadow-lg overflow-hidden transform hover:-translate-y-2 transition-transform duration-300 flex flex-col">
+                <div class="project-card rounded-xl overflow-hidden transform hover:-translate-y-2 transition-transform duration-300 flex flex-col">
                     <img src="https://placehold.co/600x400/6366F1/FFFFFF?text=Project+1" alt="Project 1 Screenshot" class="w-full h-48 object-cover">
                     <div class="p-6 flex flex-col flex-grow">
-                        <h3 class="text-xl font-semibold mb-2 text-gray-900">Legal Document Analysis using AI</h3>
-                        <p class="text-gray-600 mb-4 flex-grow">Built an NLP & ML system to analyze and classify Supreme Court judgments (1950–2024). Used BERT, T5, BART for text classification and summarization, semantic similarity for document insights, and Azure for scalable deployment. Enabled automated entity extraction, clause checking, and risk-level analysis to streamline legal document review.</p>
-                        <a href="https://github.com/Anshus9639/Legal-Doc_Analysis" class="text-indigo-600 font-semibold hover:underline mt-auto">View on GitHub &rarr;</a>
+                        <h3 class="text-xl font-semibold mb-2">Legal Document Analysis using AI</h3>
+                        <p class="mb-4 flex-grow">Built an NLP & ML system to analyze and classify Supreme Court judgments (1950–2024). Used BERT, T5, BART for text classification and summarization, semantic similarity for document insights, and Azure for scalable deployment.</p>
+                        <a href="https://github.com/Anshus9639/Legal-Doc_Analysis" class="font-semibold hover:underline mt-auto">View on GitHub &rarr;</a>
                     </div>
                 </div>
-
-                <!-- Project 2 -->
-                <div class="bg-white rounded-xl shadow-lg overflow-hidden transform hover:-translate-y-2 transition-transform duration-300 flex flex-col">
+                <div class="project-card rounded-xl overflow-hidden transform hover:-translate-y-2 transition-transform duration-300 flex flex-col">
                     <img src="https://placehold.co/600x400/34D399/FFFFFF?text=Project+2" alt="Project 2 Screenshot" class="w-full h-48 object-cover">
                     <div class="p-6 flex flex-col flex-grow">
-                        <h3 class="text-xl font-semibold mb-2 text-gray-900">Vehicle-Detection</h3>
-                        <p class="text-gray-600 mb-4 flex-grow">Developed a real-time vehicle detection system using YOLOv8 to detect and classify multiple vehicle types from images and live traffic footage. Implemented data preprocessing, annotation, and augmentation to boost model accuracy, and built the system with Python, OpenCV, and PyTorch, leveraging GPU acceleration for fast inference. The system can be used for traffic monitoring, vehicle counting, and smart city analytics.</p>
-                        <a href="https://github.com/Anshus9639/Vehicle-Detection" class="text-indigo-600 font-semibold hover:underline mt-auto">View on GitHub &rarr;</a>
+                        <h3 class="text-xl font-semibold mb-2">Vehicle-Detection</h3>
+                        <p class="mb-4 flex-grow">Developed a real-time vehicle detection system using YOLOv8 to detect and classify multiple vehicle types from images and live traffic footage. Implemented data preprocessing, annotation, and augmentation to boost model accuracy.</p>
+                        <a href="https://github.com/Anshus9639/Vehicle-Detection" class="font-semibold hover:underline mt-auto">View on GitHub &rarr;</a>
                     </div>
                 </div>
             </div>
@@ -388,109 +333,87 @@
         
         <!-- The Vinyl Collection Section -->
         <section id="music" class="py-20 md:py-28">
-            <h2 class="text-3xl font-bold text-center text-gray-900">The Vinyl Collection</h2>
+            <h2 class="text-3xl font-bold text-center">The Vinyl Collection</h2>
             <div class="music-container max-w-5xl mx-auto">
-                
-                <!-- Album 1 -->
-                <div class="album" data-cover-url="https://i.imgur.com/aAEEK.jpeg">
-                    <div class="cover">
-                        <img src="https://i.imgur.com/aAEEK.jpeg" alt="Album Cover">
-                    </div>
-                    <div class="vinyl">
-                        <div class="vinyl-cover"></div>
-                    </div>
-                </div>
-
-                <!-- Album 2 -->
-                <div class="album" data-cover-url="https://coverartarchive.org/release/78b5fe63-5beb-42c9-8756-7fda47b61a27/42374079251.jpg">
-                    <div class="cover">
-                        <img src="https://coverartarchive.org/release/78b5fe63-5beb-42c9-8756-7da47b61a27/42374079251.jpg" alt="Album Cover">
-                    </div>
-                    <div class="vinyl">
-                        <div class="vinyl-cover"></div>
-                    </div>
-                </div>
-
-                <!-- Album 3 -->
-                <div class="album" data-cover-url="https://coverartarchive.org/release/cd474271-bd7a-4d53-ba9e-e9d5bd7958cb/39032890177.jpg">
-                    <div class="cover">
-                        <img src="https://coverartarchive.org/release/cd474271-bd7a-4d53-ba9e-e9d5bd7958cb/39032890177.jpg" alt="Album Cover">
-                    </div>
-                    <div class="vinyl">
-                        <div class="vinyl-cover"></div>
-                    </div>
-                </div>
-
+                <div class="album" data-cover-url="https://i.imgur.com/aAEEK.jpeg"><div class="cover"><img src="https://i.imgur.com/aAEEK.jpeg" alt="Album Cover"></div><div class="vinyl"><div class="vinyl-cover"></div></div></div>
+                <div class="album" data-cover-url="https://coverartarchive.org/release/78b5fe63-5beb-42c9-8756-7fda47b61a27/42374079251.jpg"><div class="cover"><img src="https://coverartarchive.org/release/78b5fe63-5beb-42c9-8756-7fda47b61a27/42374079251.jpg" alt="Album Cover"></div><div class="vinyl"><div class="vinyl-cover"></div></div></div>
+                <div class="album" data-cover-url="https://coverartarchive.org/release/cd474271-bd7a-4d53-ba9e-e9d5bd7958cb/39032890177.jpg"><div class="cover"><img src="https://coverartarchive.org/release/cd474271-bd7a-4d53-ba9e-e9d5bd7958cb/39032890177.jpg" alt="Album Cover"></div><div class="vinyl"><div class="vinyl-cover"></div></div></div>
             </div>
         </section>
 
     </main>
     
     <!-- Contact & Footer -->
-    <footer id="contact" class="bg-gray-900 text-white">
+    <footer id="contact">
         <div class="container mx-auto px-6 py-12 text-center">
             <h2 class="text-3xl font-bold">Let's Connect!</h2>
             <p class="mt-4 max-w-xl mx-auto">
                 I'm always open to discussing new projects, creative ideas, or opportunities to be part of an amazing team. Feel free to reach out to me.
             </p>
-            <p class="mt-6 font-semibold text-lg text-indigo-400">
+            <p class="mt-6 font-semibold text-lg email">
                 ash911672@gmail.com
             </p>
-            
             <div class="mt-8 flex justify-center space-x-6">
-                <!-- GitHub Link -->
-                <a href="https://github.com/Anshus9639" target="_blank" rel="noopener noreferrer" class="text-gray-400 hover:text-white transition duration-300">
-                    <span class="sr-only">GitHub</span>
-                    <svg class="w-8 h-8" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
-                        <path fill-rule="evenodd" d="M12 2C6.477 2 2 6.477 2 12c0 4.418 2.865 8.168 6.839 9.492.5.092.682-.217.682-.482 0-.237-.009-.868-.014-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.531 1.032 1.531 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.031-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.203 2.398.1 2.651.64.7 1.03 1.595 1.03 2.688 0 3.848-2.338 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.001 10.001 0 0022 12c0-5.523-4.477-10-10-10z" clip-rule="evenodd" />
-                    </svg>
-                </a>
-                <!-- LinkedIn Link -->
-                <a href="https://www.linkedin.com/in/anshu-saini-4089a0292/" target="_blank" rel="noopener noreferrer" class="text-gray-400 hover:text-white transition duration-300">
-                    <span class="sr-only">LinkedIn</span>
-                    <svg class="w-8 h-8" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
-                        <path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"/>
-                    </svg>
-                </a>
+                <a href="https://github.com/Anshus9639" target="_blank" rel="noopener noreferrer" class="social-link transition duration-300"><span class="sr-only">GitHub</span><svg class="w-8 h-8" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path fill-rule="evenodd" d="M12 2C6.477 2 2 6.477 2 12c0 4.418 2.865 8.168 6.839 9.492.5.092.682-.217.682-.482 0-.237-.009-.868-.014-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.531 1.032 1.531 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.031-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.203 2.398.1 2.651.64.7 1.03 1.595 1.03 2.688 0 3.848-2.338 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.001 10.001 0 0022 12c0-5.523-4.477-10-10-10z" clip-rule="evenodd" /></svg></a>
+                <a href="https://www.linkedin.com/in/anshu-saini-4089a0292/" target="_blank" rel="noopener noreferrer" class="social-link transition duration-300"><span class="sr-only">LinkedIn</span><svg class="w-8 h-8" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"/></svg></a>
             </div>
-            <div class="mt-12 border-t border-gray-700 pt-6">
-                <p class="text-gray-500 text-sm">&copy; <span id="year"></span> Anshu Saini. All Rights Reserved.</p>
+            <div class="mt-12 border-t footer-divider pt-6">
+                <p class="opacity-70 text-sm">&copy; <span id="year"></span> Anshu Saini. All Rights Reserved.</p>
             </div>
         </div>
     </footer>
 
     <script>
-        // Set current year in footer
         document.getElementById('year').textContent = new Date().getFullYear();
         
-        // Mobile menu toggle
         const menuBtn = document.getElementById('menu-btn');
         const mobileMenu = document.getElementById('mobile-menu');
+        menuBtn.addEventListener('click', () => { mobileMenu.classList.toggle('hidden'); });
 
-        menuBtn.addEventListener('click', () => {
-            mobileMenu.classList.toggle('hidden');
-        });
+        // --- Dark Mode Toggle ---
+        const themeToggleBtns = [document.getElementById('theme-toggle-btn'), document.getElementById('theme-toggle-btn-mobile')];
+        const htmlEl = document.documentElement;
+
+        const applyTheme = (theme) => {
+            if (theme === 'dark') {
+                htmlEl.classList.add('dark');
+            } else {
+                htmlEl.classList.remove('dark');
+            }
+        };
+
+        const toggleTheme = () => {
+            const newTheme = htmlEl.classList.contains('dark') ? 'light' : 'dark';
+            localStorage.setItem('theme', newTheme);
+            applyTheme(newTheme);
+        };
+
+        themeToggleBtns.forEach(btn => btn.addEventListener('click', toggleTheme));
+
+        // Apply theme on initial load
+        const storedTheme = localStorage.getItem('theme');
+        const preferredTheme = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+        applyTheme(storedTheme || preferredTheme);
+
 
         // --- Three.js 3D Banner Animation ---
         const container = document.getElementById('three-banner');
         let scene, camera, renderer, grid;
+        const lightThemeColor = 0x111827;
+        const darkThemeColor = 0x000000;
 
         function initThree() {
             scene = new THREE.Scene();
-            scene.background = new THREE.Color(0x111827); // Dark gray background
+            scene.background = new THREE.Color(htmlEl.classList.contains('dark') ? darkThemeColor : lightThemeColor);
             const fov = 75;
             const parent = container.parentElement;
             const aspect = parent.clientWidth / parent.clientHeight;
             camera = new THREE.PerspectiveCamera(fov, aspect, 0.1, 1000);
-            camera.position.z = 20;
-            camera.position.y = 5;
+            camera.position.z = 20; camera.position.y = 5;
             renderer = new THREE.WebGLRenderer({ canvas: container, antialias: true });
             renderer.setSize(parent.clientWidth, parent.clientHeight);
             const geometry = new THREE.BoxGeometry(30, 10, 30, 20, 20, 20);
-            const material = new THREE.MeshBasicMaterial({ 
-                color: 0x6366f1, // Original indigo color
-                wireframe: true 
-            });
+            const material = new THREE.MeshBasicMaterial({ color: 0x6366f1, wireframe: true });
             grid = new THREE.Mesh(geometry, material);
             scene.add(grid);
             const ambientLight = new THREE.AmbientLight(0xffffff, 0.5); 
@@ -499,9 +422,7 @@
 
         function animateThree() {
             requestAnimationFrame(animateThree);
-            grid.rotation.x += 0.0005;
-            grid.rotation.y += 0.001;
-            grid.rotation.z += 0.0002;
+            grid.rotation.x += 0.0005; grid.rotation.y += 0.001; grid.rotation.z += 0.0002;
             renderer.render(scene, camera);
         }
 
@@ -517,8 +438,19 @@
             initThree();
             animateThree();
             window.addEventListener('resize', onWindowResize);
-        }
 
+            // Update scene background on theme change
+            const observer = new MutationObserver((mutations) => {
+                mutations.forEach((mutation) => {
+                    if (mutation.attributeName === "class" && scene) {
+                        const isDark = htmlEl.classList.contains('dark');
+                        scene.background.set(isDark ? darkThemeColor : lightThemeColor);
+                    }
+                });
+            });
+            observer.observe(htmlEl, { attributes: true });
+        }
+        
         // --- Interactive Terminal ---
         const terminalContent = document.getElementById('terminal-content');
         if (terminalContent) {
@@ -531,9 +463,7 @@
                 { text: 'Anshu.getStatus()', isCommand: true },
                 { text: 'Status: Always curious, always learning, and always looking for the next challenge to level up.', isCommand: false }
             ];
-            
             let lineIndex = 0; let charIndex = 0; let currentLine = '';
-
             function type() {
                 if (lineIndex < lines.length) {
                     const line = lines[lineIndex];
@@ -542,17 +472,9 @@
                         let html = '';
                         for (let i = 0; i < lineIndex; i++) {
                             const prevLine = lines[i];
-                            if(prevLine.isCommand) {
-                                html += `<p><span class="prompt-user">visitor@anshu.dev:~$</span> <span class="prompt-command">${prevLine.text}</span></p>`;
-                            } else {
-                                html += `<p>${prevLine.text}</p>`;
-                            }
+                            html += prevLine.isCommand ? `<p><span class="prompt-user">visitor@anshu.dev:~$</span> <span class="prompt-command">${prevLine.text}</span></p>` : `<p><span class="prompt-user">${prevLine.text}</span></p>`;
                         }
-                        if (line.isCommand) {
-                            html += `<p><span class="prompt-user">visitor@anshu.dev:~$</span> <span class="prompt-command">${currentLine}</span><span class="terminal-cursor">&nbsp;</span></p>`;
-                        } else {
-                            html += `<p>${currentLine}<span class="terminal-cursor">&nbsp;</span></p>`;
-                        }
+                        html += line.isCommand ? `<p><span class="prompt-user">visitor@anshu.dev:~$</span> <span class="prompt-command">${currentLine}</span><span class="terminal-cursor">&nbsp;</span></p>` : `<p><span class="prompt-user">${currentLine}</span><span class="terminal-cursor">&nbsp;</span></p>`;
                         terminalContent.innerHTML = html;
                         charIndex++;
                         setTimeout(type, 30);
@@ -562,7 +484,7 @@
                     }
                 } else {
                     terminalContent.innerHTML = terminalContent.innerHTML.replace('<span class="terminal-cursor">&nbsp;</span>', '');
-                     terminalContent.innerHTML += `<p><span class="prompt-user">visitor@anshu.dev:~$</span> <span class="terminal-cursor">&nbsp;</span></p>`;
+                    terminalContent.innerHTML += `<p><span class="prompt-user">visitor@anshu.dev:~$</span> <span class="terminal-cursor">&nbsp;</span></p>`;
                 }
             }
             type();
@@ -581,5 +503,7 @@
 
 </body>
 </html>
+
+
 
 
