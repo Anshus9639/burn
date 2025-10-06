@@ -89,6 +89,14 @@
         @keyframes glitch-anim-2 { 0% { clip-path: inset(10% 0 80% 0); } 25% { clip-path: inset(30% 0 50% 0); } 50% { clip-path: inset(50% 0 30% 0); } 75% { clip-path: inset(70% 0 10% 0); } 100% { clip-path: inset(90% 0 0% 0); } }
         @keyframes flow-and-skew { from { transform: translateX(-15%) skewX(-10deg); } to { transform: translateX(15%) skewX(10deg); } }
 
+        /* Add this to reduce the animation movement on smaller screens */
+        @media (max-width: 768px) {
+            @keyframes flow-and-skew {
+                from { transform: translateX(-8%) skewX(-8deg); }
+                to { transform: translateX(8%) skewX(8deg); }
+            }
+        }
+
         .f1-car-element { 
             animation: car-forward 6s infinite linear;
             transform-origin: center bottom; position: absolute;
@@ -264,7 +272,10 @@
                     
                     <div class="glitch-wrapper">
                         <img src="https://www.pngall.com/wp-content/uploads/2016/04/McLaren-F1-PNG-Pic.png" alt="McLaren F1 Car" class="f1-car-element object-contain" onerror="this.onerror=null; this.src='https://placehold.co/200x100/1f2937/ffffff?text=F1+Image+Failed'; this.classList.remove('f1-car-element'); this.classList.add('w-auto', 'h-10', 'relative', 'z-5');">
-                        <div id="glitch-text" class="glitch text-5xl md:text-7xl absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2" data-text="Vamos">Vamos</div>
+                        <!-- Centering Wrapper -->
+                        <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2">
+                            <div id="glitch-text" class="glitch text-5xl md:text-7xl" data-text="Vamos">Vamos</div>
+                        </div>
                     </div>
                 </div>
                 
@@ -570,4 +581,5 @@
 
 </body>
 </html>
+
 
