@@ -246,9 +246,13 @@
                 </div>
                 
                 <!-- Profile Picture -->
+                <!-- THIS IS THE CORRECTED PART -->
                 <div class="absolute bottom-0 left-4 md:left-8 transform translate-y-1/2 z-20">
-                    <img src="https://res.cloudinary.com/dpf4qrl0w/image/upload/v1761142624/WhatsApp_Image_2025-10-21_at_13.05.59_f9f993a4_inotam.jpg">
+                    <img src="https://res.cloudinary.com/dpf4qrl0w/image/upload/v1761142624/WhatsApp_Image_2025-10-21_at_13.05.59_f9f993a4_inotam.jpg" 
+                         class="w-32 h-32 md:w-36 md:h-36 rounded-full object-cover border-8 profile-pic shadow-lg"
+                         alt="Anshu Saini Profile Picture">
                 </div>
+                <!-- END OF CORRECTION -->
             </div>
 
             <!-- Profile Info -->
@@ -457,11 +461,11 @@
             const lines = [
                 { text: 'Anshu.getBio()', isCommand: true },
                 { text: 'Loading bio...', isCommand: false },
-                { text: 'Hi, I’m Anshu Saini — a techie who loves turning ideas into working projects. From training AI models and digging into data to building smooth web apps, I enjoy mixing logic with creativity to make things actually useful.', isCommand: false },
+                { text: 'Hi, I’m Anshu Saini — a techie who loves turning ideas into working projects. From training AI models and digging into data to building smooth web apps, I enjoy mixing logic with creativity to make things actually useful.', isCensored: false, isCommand: false },
                 { text: 'Anshu.getInterests()', isCommand: true },
-                { text: '["AI/ML", "Robotics", "Cloud Tech", "Formula 1", "Geeking out"]', isCommand: false },
+                { text: '["AI/ML", "Robotics", "Cloud Tech", "Formula 1", "Geeking out"]', isCensored: false, isCommand: false },
                 { text: 'Anshu.getStatus()', isCommand: true },
-                { text: 'Status: Always curious, always learning, and always looking for the next challenge to level up.', isCommand: false }
+                { text: 'Status: Always curious, always learning, and always looking for the next challenge to level up.', isCensored: false, isCommand: false }
             ];
             let lineIndex = 0; let charIndex = 0; let currentLine = '';
             function type() {
@@ -472,9 +476,9 @@
                         let html = '';
                         for (let i = 0; i < lineIndex; i++) {
                             const prevLine = lines[i];
-                            html += prevLine.isCommand ? `<p><span class="prompt-user">visitor@anshu.dev:~$</span> <span class="prompt-command">${prevLine.text}</span></p>` : `<p><span class="prompt-user">${prevLine.text}</span></p>`;
+                            html += prevLine.isCommand ? `<p><span class="prompt-user">visitor@anshu.dev:~$</span> <span class="prompt-command">${prevLine.text}</span></p>` : `<p><span class->${prevLine.text}</span></p>`;
                         }
-                        html += line.isCommand ? `<p><span class="prompt-user">visitor@anshu.dev:~$</span> <span class="prompt-command">${currentLine}</span><span class="terminal-cursor">&nbsp;</span></p>` : `<p><span class="prompt-user">${currentLine}</span><span class="terminal-cursor">&nbsp;</span></p>`;
+                        html += line.isCommand ? `<p><span class="prompt-user">visitor@anshu.dev:~$</span> <span class="prompt-command">${currentLine}</span><span classs="terminal-cursor">&nbsp;</span></p>` : `<p><span class="prompt-user">${currentLine}</span><span class="terminal-cursor">&nbsp;</span></p>`;
                         terminalContent.innerHTML = html;
                         charIndex++;
                         setTimeout(type, 30);
@@ -503,9 +507,3 @@
 
 </body>
 </html>
-
-
-
-
-
-
